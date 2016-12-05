@@ -1,0 +1,31 @@
+---
+# tasks file for aptoma.aws-codedeploy
+- name: Install Packages
+  become: true
+  apt:
+    state: latest
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - ruby
+
+- name: Get Instance Metadata
+  action: ec2_facts
+  register: ec2_facts
+
+## Default region to use for download when running locally or non ec2 instance
+- set_fact: region=eu-central-1
+  when: ec2_facts.ansible_ec2_placement_region is undefined
+
+- set_fact: region={{ ec2_facts.ansible_ec2_placement_region }}
+  when: ec2_facts.ansible_ec2_placement_region is defined
+
+- name: Download CodeDeploy Agent
+  get_url:
+    url: "https://aws-codedeploy-{{ region }}.s3.amazonaws.com/latest/install"
+    dest: /tmp/codedeploy-install
+    mode: 0755
+
+- name: Codedeploy Install
+  become: true
+  command: /tmp/codedeploy-install auto
