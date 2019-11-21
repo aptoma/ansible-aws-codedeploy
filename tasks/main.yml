@@ -15,4 +15,4 @@
 
 - name: Codedeploy Install
   become: true
-  command: /tmp/codedeploy-install auto
+  shell: AWS_REGION={{ aws_region }} /tmp/codedeploy-install auto
