@@ -4,10 +4,8 @@
   become: true
   apt:
     state: latest
-    name: "{{ item }}"
+    name: ruby
     update_cache: yes
-  with_items:
-    - ruby
 
 - name: Download CodeDeploy Agent
   get_url:
