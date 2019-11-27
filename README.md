@@ -10,7 +10,7 @@ Add these lines to your role file:
 ```yaml
 - src: git@github.com:aptoma/ansible-aws-codedeploy
   scm: git
-  version: 0.1.0
+  version: 0.3.0
   name: aptoma.aws-codedeploy
 ```
 
